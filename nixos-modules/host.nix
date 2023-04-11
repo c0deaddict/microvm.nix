@@ -241,9 +241,6 @@ in
               --socket-path=$SOCKET \
               --socket-group=${config.users.users.microvm.group} \
               --shared-dir $SOURCE \
-              --rlimit-nofile ${toString serviceConfig.LimitNOFILE} \
-              --thread-pool-size `nproc` \
-              --posix-acl --xattr \
               &
             # detach from shell, but remain in systemd cgroup
             disown
