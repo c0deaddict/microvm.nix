@@ -46,9 +46,10 @@ let
 
   volumes = withDriveLetters microvmConfig;
 
-  requireUsb =
-    graphics.enable ||
-    lib.any ({ bus, ... }: bus == "usb") microvmConfig.devices;
+  requireUsb = false;
+  # requireUsb =
+  #   graphics.enable ||
+  #   lib.any ({ bus, ... }: bus == "usb") microvmConfig.devices;
 
   arch = builtins.head (builtins.split "-" system);
 
@@ -118,11 +119,12 @@ let
       (builtins.head xs // { index = n; })
     ] ++ (enumerate (n + 1) (builtins.tail xs));
 
-  canSandbox =
-    # Don't let qemu sandbox itself if it is going to call qemu-bridge-helper
-    ! lib.any ({ type, ... }:
-      type == "bridge"
-    ) microvmConfig.interfaces;
+  canSandbox = false;
+  # canSandbox =
+  #   # Don't let qemu sandbox itself if it is going to call qemu-bridge-helper
+  #   ! lib.any ({ type, ... }:
+  #     type == "bridge"
+  #   ) microvmConfig.interfaces;
 
   tapMultiQueue = vcpu > 1;
 
@@ -192,17 +194,17 @@ lib.warnIf (mem == 2048) ''
       "-drive" "id=store,format=raw,read-only=on,file=${storeDisk},if=none,aio=io_uring"
       "-device" "virtio-blk-${devType},drive=store${lib.optionalString (devType == "pci") ",disable-legacy=on"}"
     ] ++
-    (if graphics.enable
-     then [
-      "-display" "gtk,gl=on"
-      "-device" "virtio-vga-gl"
-      "-device" "qemu-xhci"
-      "-device" "usb-tablet"
-      "-device" "usb-kbd"
-     ]
-     else [
-      "-nographic"
-     ]) ++
+    # (if graphics.enable
+    #  then [
+    #   "-display" "gtk,gl=on"
+    #   "-device" "virtio-vga-gl"
+    #   "-device" "qemu-xhci"
+    #   "-device" "usb-tablet"
+    #   "-device" "usb-kbd"
+    #  ]
+    #  else [
+    #   "-nographic"
+    #  ]) ++
     lib.optionals canSandbox [
       "-sandbox" "on"
     ] ++
