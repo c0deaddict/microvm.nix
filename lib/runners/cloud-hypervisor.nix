@@ -137,7 +137,7 @@ in {
         )
         "--cpus" "boot=${toString vcpu}"
         "--watchdog"
-        "--console" "null"
+        "--console" "off"
         "--serial" "tty"
         "--kernel" kernelPath
         "--initramfs" initrdPath
