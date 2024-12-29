@@ -15,7 +15,7 @@ let
 
   kernelConsole =
     if pkgs.stdenv.system == "x86_64-linux"
-    then "earlyprintk=hvc0 console=hvc0"
+    then "earlyprintk=ttyS0 console=ttyS0"
     else if pkgs.stdenv.system == "aarch64-linux"
     then "console=ttyAMA0"
     else "";
@@ -138,7 +138,7 @@ in {
         "--cpus" "boot=${toString vcpu}"
         "--watchdog"
         "--console" "null"
-        "--serial" "tty"
+        "--serial" "off"
         "--kernel" kernelPath
         "--initramfs" initrdPath
         "--cmdline" "${kernelConsole} reboot=t panic=-1 ${toString microvmConfig.kernelParams}"
