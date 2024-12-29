@@ -15,7 +15,7 @@ let
 
   kernelConsole =
     if pkgs.stdenv.system == "x86_64-linux"
-    then "earlyprintk=ttyS0 console=ttyS0"
+    then ""
     else if pkgs.stdenv.system == "aarch64-linux"
     then "console=ttyAMA0"
     else "";
