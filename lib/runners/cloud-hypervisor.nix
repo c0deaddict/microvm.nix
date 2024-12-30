@@ -138,7 +138,7 @@ in {
         "--cpus" "boot=${toString vcpu}"
         "--watchdog"
         "--console" "null"
-        "--serial" "off"
+        "--serial" "tty"
         "--kernel" kernelPath
         "--initramfs" initrdPath
         "--cmdline" "${kernelConsole} reboot=t panic=-1 ${toString microvmConfig.kernelParams}"
